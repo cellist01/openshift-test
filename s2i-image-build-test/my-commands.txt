@@ -1,0 +1,8 @@
+/subsystem=logging/custom-formatter=custom-xml-formatter:add(class=java.util.logging.XMLFormatter, module=org.jboss.logmanager)
+/subsystem=logging/console-handler=CONSOLE:write-attribute(name=named-formatter, value=custom-xml-formatter)
+/subsystem=logging/logging-profile=accounts-app-profile:add
+/subsystem=logging/logging-profile=accounts-app-profile/file-handler=ejb-trace-file:add(file={path=>"ejb-trace.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/logging-profile=accounts-app-profile/file-handler=ejb-trace-file:write-attribute(name="level", value="DEBUG")
+/subsystem=logging/logging-profile=accounts-app-profile/logger=com.company.accounts.ejbs:add(level=TRACE)
+/subsystem=logging/logging-profile=accounts-app-profile/logger=com.company.accounts.ejbs:add-handler(name="ejb-trace-file")
+/core-service=management/management-interface=http-interface:write-attribute(name=console-enabled,value=true)
