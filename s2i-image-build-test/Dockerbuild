@@ -1,0 +1,15 @@
+## image pull ##
+FROM registry.access.redhat.com/jboss-eap-7/eap72-openshift
+
+## Dockerfile for Creating a Management User ##
+RUN $JBOSS_HOME/bin/add-user.sh adminUser StrongPassword#1 --silent
+
+## modify Jboss Configuration
+COPY my-commands.txt $JBOSS_HOME
+USER root
+USER 1001
+USER jboss
+RUN chown jboss:jboss $JBOSS_HOME/my-commands.txt
+RUN $JBOSS_HOME/bin/jboss-cli.sh --commands=embed-server,run-batch\ --file=$JBOSS_HOME/my-commands.txt,stop-embedded-server
+EXPOSE 9990
+CMD ["/opt/eap/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
