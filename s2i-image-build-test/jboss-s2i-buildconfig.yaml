@@ -22,3 +22,6 @@ spec:
       kind: "ImageStreamTag"
       name: "custom-jboss-s2i-image:1.0"
       namespace: source-test
+
+
+
