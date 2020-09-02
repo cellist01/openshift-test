@@ -25,7 +25,7 @@ LABEL summary="$SUMMARY" \
       io.openshift.tags="builder,httpd,httpd-24" \
       name="rhel8/httpd-24" \
       version="1" \
-      com.redhat.component="httpd-24-container" \
+      com.redhat.component="httpd-24-container"
 
 EXPOSE 8080
 EXPOSE 8443
