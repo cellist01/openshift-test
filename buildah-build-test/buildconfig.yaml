@@ -13,8 +13,8 @@ spec:
       forcePull: true
       from:
         kind: ImageStreamTag
-        name: custom-builder-image:1.0
-        namespace: source-test
+        name: custom-builder-image:latest
+        namespace: source-test ->> 변경 필요
   output:
     to:
       kind: ImageStreamTag
