@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <meta charset="utf-8">
+    <meta name="discription" content="이 페이지는 테스트 페이지로 사용됩니다">
+    <title>My Main page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Notable&display=swap" rel="stylesheet">
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
+  </head>
 <body>
 <?php
 echo "<h2>PHP Test Page!</h2>";
