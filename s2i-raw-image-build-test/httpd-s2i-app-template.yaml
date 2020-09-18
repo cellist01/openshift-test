@@ -13,7 +13,7 @@ metadata:
       content. For more information about using this template, including OpenShift
       considerations, see https://github.com/sclorg/httpd-ex/blob/master/README.md.
     iconClass: icon-apache
-    openshift.io/display-name: Apache HTTP Server
+    openshift.io/display-name: Apache HTTP Server - s2i
     openshift.io/documentation-url: https://github.com/cellist01/openshift-test
     openshift.io/long-description: This template defines resources needed to develop
       a static application served by Apache HTTP Server (httpd), including a build
