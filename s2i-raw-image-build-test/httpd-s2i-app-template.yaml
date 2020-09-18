@@ -1,8 +1,8 @@
 apiVersion: template.openshift.io/v1
 kind: Template
 labels:
-  app: httpd-s2i
-  template: httpd-s2i
+  app: httpd-s2i-app
+  template: httpd-s2i-app
 message: |-
   The following service(s) have been created in your project: ${NAME}.
 
@@ -13,8 +13,8 @@ metadata:
       content. For more information about using this template, including OpenShift
       considerations, see https://github.com/sclorg/httpd-ex/blob/master/README.md.
     iconClass: icon-apache
-    openshift.io/display-name: Apache HTTP Server - s2i
-    openshift.io/documentation-url: https://github.com/cellist01/openshift-test
+    openshift.io/display-name: Apache HTTP Server S2I
+    openshift.io/documentation-url: https://github.com/sclorg/httpd-ex
     openshift.io/long-description: This template defines resources needed to develop
       a static application served by Apache HTTP Server (httpd), including a build
       configuration and application deployment configuration.
@@ -26,9 +26,8 @@ metadata:
   creationTimestamp: "2020-03-09T04:37:33Z"
   labels:
     samples.operator.openshift.io/managed: "true"
-  name: httpd-s2i
+  name: httpd-s2i-app
   namespace: openshift
-  resourceVersion: "165948391"
 objects:
 - apiVersion: v1
   kind: Service
@@ -80,7 +79,7 @@ objects:
       sourceStrategy:
         from:
           kind: ImageStreamTag
-          name: httpd:2.4
+          name: httpd-s2i-image:1.0
           namespace: ${NAMESPACE}
       type: Source
     triggers:
@@ -120,7 +119,7 @@ objects:
               port: 8080
             initialDelaySeconds: 30
             timeoutSeconds: 3
-          name: httpd-s2i
+          name: httpd-example
           ports:
           - containerPort: 8080
           readinessProbe:
@@ -136,10 +135,10 @@ objects:
     - imageChangeParams:
         automatic: true
         containerNames:
-        - httpd-s2i
+        - httpd-example
         from:
           kind: ImageStreamTag
-          name: httpd-s2i-image
+          name: ${NAME}:latest
       type: ImageChange
     - type: ConfigChange
 parameters:
@@ -147,7 +146,7 @@ parameters:
   displayName: Name
   name: NAME
   required: true
-  value: httpd-s2i
+  value: httpd-example
 - description: The OpenShift Namespace where the ImageStream resides.
   displayName: Namespace
   name: NAMESPACE
