@@ -1,9 +1,9 @@
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
-  name: httpd-s2i-app-buildconfig
+  name: tomcat-s2i-app-buildconfig
   labels:
-    name: httpd-s2i-app-buildconfig
+    name: tomcat-s2i-app-buildconfig
   namespace: html-test
   annotations:
     template.alpha.openshift.io/wait-for-ready: 'true'
@@ -20,7 +20,7 @@ spec:
       forcePull: true
       from:
         kind: ImageStreamTag
-        name: tomcat-s2i-image:1.0
+        name: tomcat-s2i-build:1.0
         namespace: openshift
       env: []
   output:
