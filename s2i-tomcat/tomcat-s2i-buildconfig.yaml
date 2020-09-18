@@ -4,7 +4,7 @@ metadata:
   name: tomcat-s2i-app-buildconfig
   labels:
     name: tomcat-s2i-app-buildconfig
-  namespace: html-test
+  namespace: kyobotest
   annotations:
     template.alpha.openshift.io/wait-for-ready: 'true'
 spec:
