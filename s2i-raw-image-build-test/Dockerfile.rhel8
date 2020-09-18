@@ -51,6 +51,7 @@ ENV HTTPD_CONTAINER_SCRIPTS_PATH=/usr/share/container-scripts/httpd/ \
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 COPY ./root /
 
+RUN chmod +x /usr/libexec/httpd-prepare
 # Reset permissions of filesystem to default values
 RUN /usr/libexec/httpd-prepare && rpm-file-permissions
 
