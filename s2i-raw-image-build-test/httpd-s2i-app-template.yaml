@@ -161,7 +161,7 @@ parameters:
   displayName: Git Repository URL
   name: SOURCE_REPOSITORY_URL
   required: true
-  value: https://github.com/sclorg/httpd-ex.git
+  value: https://github.com/cellist01/openshift-test
 - description: Set this to a branch name, tag or other ref of your repository if you
     are not using the default branch.
   displayName: Git Reference
@@ -170,6 +170,7 @@ parameters:
     of your repository.
   displayName: Context Directory
   name: CONTEXT_DIR
+  value: dockerbuild-test
 - description: The exposed hostname that will route to the httpd service, if left
     blank a value will be defaulted.
   displayName: Application Hostname

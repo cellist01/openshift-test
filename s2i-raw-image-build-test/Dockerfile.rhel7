@@ -1,4 +1,4 @@
-FROM ubi8/s2i-core:1
+FROM rhscl/s2i-core-rhel7:1
 
 # Apache HTTP Server image.
 #
@@ -22,16 +22,20 @@ LABEL summary="$SUMMARY" \
       io.k8s.description="$DESCRIPTION" \
       io.k8s.display-name="Apache httpd $HTTPD_VERSION" \
       io.openshift.expose-services="8080:http,8443:https" \
-      io.openshift.tags="builder,httpd,httpd-24" \
-      name="rhel8/httpd-24" \
-      version="1" \
-      com.redhat.component="httpd-24-container"
+      io.openshift.tags="builder,httpd,httpd24" \
+      name="rhscl/httpd-24-rhel7" \
+      version="$HTTPD_VERSION" \
+      com.redhat.license_terms="https://www.redhat.com/en/about/red-hat-end-user-license-agreements#rhel" \
+      com.redhat.component="httpd24-container" \
+      usage="s2i build https://github.com/sclorg/httpd-container.git --context-dir=examples/sample-test-app/ rhscl/httpd-24-rhel7 sample-server" \
+      maintainer="SoftwareCollections.org <sclorg@redhat.com>"
 
 EXPOSE 8080
 EXPOSE 8443
 
-RUN yum -y module enable httpd:$HTTPD_VERSION && \
-    INSTALL_PKGS="gettext hostname nss_wrapper bind-utils httpd mod_ssl mod_auth_mellon sscg" && \
+RUN yum install -y yum-utils && \
+    prepare-yum-repositories rhel-server-rhscl-7-rpms && \
+    INSTALL_PKGS="gettext hostname nss_wrapper bind-utils httpd24 httpd24-mod_ssl httpd24-mod_auth_mellon openssl" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum -y clean all --enablerepo='*'
@@ -45,15 +49,20 @@ ENV HTTPD_CONTAINER_SCRIPTS_PATH=/usr/share/container-scripts/httpd/ \
     HTTPD_TLS_CERT_PATH=/etc/httpd/tls \
     HTTPD_VAR_RUN=/var/run/httpd \
     HTTPD_DATA_PATH=/var/www \
-    HTTPD_DATA_ORIG_PATH=/var/www \
-    HTTPD_LOG_PATH=/var/log/httpd
+    HTTPD_DATA_ORIG_PATH=/opt/rh/httpd24/root/var/www \
+    HTTPD_LOG_PATH=/var/log/httpd24 \
+    HTTPD_SCL=httpd24
+
+# When bash is started non-interactively, to run a shell script, for example it
+# looks for this variable and source the content of this file. This will enable
+# the SCL for all scripts without need to do 'scl enable'.
+ENV BASH_ENV=${HTTPD_APP_ROOT}/scl_enable \
+    ENV=${HTTPD_APP_ROOT}/scl_enable \
+    PROMPT_COMMAND=". ${HTTPD_APP_ROOT}/scl_enable"
 
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 COPY ./root /
 
-RUN chdmo +x /usr/libexec/s2i/assemble
-RUN chdmo +x /usr/libexec/s2i/run
-RUN chmod +x /usr/libexec/httpd-prepare
 # Reset permissions of filesystem to default values
 RUN /usr/libexec/httpd-prepare && rpm-file-permissions
 
