@@ -3,8 +3,9 @@ FROM registry.access.redhat.com/jboss-eap-7/eap72-openshift
 
 ## Dockerfile for Creating a Management User ##
 
-## war 파일 추가
-COPY Page.war /deployments
-RUN $JBOSS_HOME/bin/jboss-cli.sh --commands=embed-server,run-batch\ --file=$JBOSS_HOME/my-commands.txt,stop-embedded-server
+## Copy File
+COPY jboss-configfile.txt /home/jboss/
+RUN chmod 777 /home/jboss/jboss-configfile.txt
+
 EXPOSE 9990
 CMD ["/opt/eap/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
