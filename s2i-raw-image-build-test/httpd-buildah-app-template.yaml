@@ -1,8 +1,8 @@
 apiVersion: template.openshift.io/v1
 kind: Template
 labels:
-  app: httpd-s2i-app-user01
-  template: httpd-s2i-app-user01
+  app: httpd-buildah-app-user01
+  template: httpd-buildah-app-user01
 message: |-
   The following service(s) have been created in your project: ${NAME}.
 
@@ -13,7 +13,7 @@ metadata:
       content. For more information about using this template, including OpenShift
       considerations, see https://github.com/sclorg/httpd-ex/blob/master/README.md.
     iconClass: icon-apache
-    openshift.io/display-name: Apache HTTP Server S2I user01
+    openshift.io/display-name: Apache HTTP Server Buildah user01
     openshift.io/documentation-url: https://github.com/sclorg/httpd-ex
     openshift.io/long-description: This template defines resources needed to develop
       a static application served by Apache HTTP Server (httpd), including a build
@@ -26,7 +26,7 @@ metadata:
   creationTimestamp: "2020-03-09T04:37:33Z"
   labels:
     samples.operator.openshift.io/managed: "true"
-  name: httpd-s2i-app-user01
+  name: httpd-buildah-app-user01
   namespace: openshift
 objects:
 - apiVersion: v1
@@ -79,7 +79,7 @@ objects:
       sourceStrategy:
         from:
           kind: ImageStreamTag
-          name: httpd-s2i-image:1.0
+          name: httpd-buildah-image:latest
           namespace: ${NAMESPACE}
       type: Source
     triggers:
@@ -119,7 +119,7 @@ objects:
               port: 8080
             initialDelaySeconds: 30
             timeoutSeconds: 3
-          name: httpd-s2i-app-user01
+          name: httpd-buildah-app-user01
           ports:
           - containerPort: 8080
           readinessProbe:
@@ -135,7 +135,7 @@ objects:
     - imageChangeParams:
         automatic: true
         containerNames:
-        - httpd-s2i-app-user01
+        - httpd-buildah-app-user01
         from:
           kind: ImageStreamTag
           name: ${NAME}:latest
@@ -146,7 +146,7 @@ parameters:
   displayName: Name
   name: NAME
   required: true
-  value: httpd-s2i-app-user01
+  value: httpd-buildah-app-user01
 - description: The OpenShift Namespace where the ImageStream resides.
   displayName: Namespace
   name: NAMESPACE

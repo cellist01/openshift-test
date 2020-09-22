@@ -3,7 +3,7 @@ RUN yum install -y buildah
 # For simplicity, /tmp/build contains the inputs we’ll be building when we
 # run this custom builder image. Normally the custom builder image would
 # fetch this content from some location at build time. (e.g. via git clone).
-ADD Dockerfile.rhel8 /tmp/input/Dockerfile
+ADD Dockerfile.rhel7 /tmp/input/Dockerfile
 ADD ./s2i/bin/ /tmp/input/s2i/bin/
 ADD ./root /tmp/input/root
 ADD build.sh /usr/bin
